@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G.H.P. School - Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: #004080;
+            color: white;
+        }
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            background: #0073e6;
+            padding: 10px;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .menu a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            display: none;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .active {
+            display: block;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background: #004080;
+            color: white;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background: #0073e6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #005bb5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: #0073e6;
+            color: white;
+        }
+    </style>
+    <script>
+        function showSection(sectionId) {
+            let sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+
+            if (sectionId === "studentList") {
+                displayStudents();
+            } else if (sectionId === "staffList") {
+                displayStaff();
+            }
+        }
+
+        function addStudent() {
+            let name = document.getElementById("studentName").value;
+            let studentClass = document.getElementById("studentClass").value;
+            let section = document.getElementById("studentSection").value;
+            let contact = document.getElementById("studentContact").value;
+            let address = document.getElementById("studentAddress").value;
+
+            if (!name || !studentClass || !section || !contact || !address) {
+                alert("All fields are required!");
+                return;
+            }
+
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+            students.push({ name, studentClass, section, contact, address });
+            localStorage.setItem("students", JSON.stringify(students));
+
+            document.getElementById("studentForm").reset();
+            alert("Student added successfully!");
+        }
+
+        function displayStudents() {
+            let students = JSON.parse(localStorage.getItem("students")) || [];
+            let table = `<table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Class</th>
+                                <th>Section</th>
+                                <th>Contact</th>
+                                <th>Address</th>
+                            </tr>`;
+            students.forEach(student => {
+                table += `<tr>
+                            <td>${student.name}</td>
+                            <td>${student.studentClass}</td>
+                            <td>${student.section}</td>
+                            <td>${student.contact}</td>
+                            <td>${student.address}</td>
+                          </tr>`;
+            });
+            table += `</table>`;
+            document.getElementById("studentList").innerHTML = "<h2>Student Records</h2>" + table;
+        }
+
+        function addStaff() {
+            let name = document.getElementById("staffName").value;
+            let role = document.getElementById("staffRole").value;
+            let assignedClass = document.getElementById("staffClass").value;
+
+            if (!name || !role || !assignedClass) {
+                alert("All fields are required!");
+                return;
+            }
+
+            let staff = JSON.parse(localStorage.getItem("staff")) || [];
+            staff.push({ name, role, assignedClass });
+            localStorage.setItem("staff", JSON.stringify(staff));
+
+            document.getElementById("staffForm").reset();
+            alert("Staff added successfully!");
+        }
+
+        function displayStaff() {
+            let staff = JSON.parse(localStorage.getItem("staff")) || [];
+            let table = `<table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Assigned Class</th>
+                            </tr>`;
+            staff.forEach(member => {
+                table += `<tr>
+                            <td>${member.name}</td>
+                            <td>${member.role}</td>
+                            <td>${member.assignedClass}</td>
+                          </tr>`;
+            });
+            table += `</table>`;
+            document.getElementById("staffList").innerHTML = "<h2>Staff Records</h2>" + table;
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>G.H.P. Secondary School<br>
+                <span style="font-size: 0.8em;">Birgunj-13</span>
+            </h1>
+        </div>
+    </div>
+
+    <nav class="menu">
+        <a onclick="showSection('info')">Information</a>
+        <a onclick="showSection('studentEntry')">Enter Student</a>
+        <a onclick="showSection('studentList')">Student Records</a>
+        <a onclick="showSection('staffEntry')">Enter Staff</a>
+        <a onclick="showSection('staffList')">Staff Records</a>
+        <a onclick="showSection('extra')">Extra-Curricular</a>
+        <a onclick="showSection('facilities')">Facilities</a>
+        <a onclick="showSection('about')">About Us</a>
+    </nav>
+    <div class="container">
+        <section id="info" class="section active">
+            <h2>Information</h2>
+            <p>G.H.P. School, located in Birgunj-13, is a premier educational institution dedicated to excellence in academics and co-curricular activities.</p>
+        </section>
+
+        <section id="studentEntry" class="section">
+            <h2>Enter Student</h2>
+            <form id="studentForm">
+                <label>Name:</label><input type="text" id="studentName">
+                <label>Class:</label><input type="text" id="studentClass">
+                <label>Section:</label><input type="text" id="studentSection">
+                <label>Contact:</label><input type="text" id="studentContact">
+                <label>Address:</label><input type="text" id="studentAddress">
+                <button type="button" onclick="addStudent()">Add Student</button>
+            </form>
+        </section>
+
+        <section id="studentList" class="section"><h2>Student Records</h2></section>
+
+        <section id="staffEntry" class="section">
+            <h2>Enter Staff</h2>
+            <form id="staffForm">
+                <label>Name:</label><input type="text" id="staffName">
+                <label>Role:</label><select id="staffRole"><option>Teaching</option><option>Non-Teaching</option></select>
+                <label>Assigned Class:</label><input type="text" id="staffClass">
+                <button type="button" onclick="addStaff()">Add Staff</button>
+            </form>
+        </section>
+
+        <section id="staffList" class="section"><h2>Staff Records</h2></section>
+    </div>
+
+        <!-- Extra-Curricular Section -->
+        <section id="extra" class="section">
+            <h2>Extra-Curricular Activities</h2>
+            <ul class="content-list">
+                <li>🎨 Art & Craft Club</li>
+                <li>⚽ Sports Program (Football, Cricket, Basketball)</li>
+                <li>💃 Dance & Music Society</li>
+                <li>🔬 Science & Innovation Club</li>
+                <li>📚 Literary & Debate Society</li>
+                <li>🌳 Environmental Awareness Program</li>
+                <li>🧘 Yoga & Meditation Classes</li>
+                <li>🎭 Annual Cultural Festival</li>
+                <li>🏆 Inter-School Competitions</li>
+                <li>🌍 Model United Nations</li>
+            </ul>
+        </section>
+
+        <!-- Facilities Section -->
+        <section id="facilities" class="section">
+            <h2>School Facilities</h2>
+            <ul class="content-list">
+                <li>🏫 Smart Classrooms with Digital Boards</li>
+                <li>🔭 Advanced Science Laboratories</li>
+                <li>💻 Computer Lab with High-Speed Internet</li>
+                <li>📖 Library with 15,000+ Books</li>
+                <li>🏟️ Outdoor Sports Complex (2 Acres)</li>
+                <li>🤸 Indoor Games Facility</li>
+                <li>🎭 Auditorium with 500 Capacity</li>
+                <li>🚌 School Transportation Fleet</li>
+                <li>🏥 Medical Room with Nurse</li>
+                <li>🍴 Hygienic Cafeteria</li>
+                <li>💧 RO Water Purification System</li>
+                <li>🔒 24/7 Security & CCTV Surveillance</li>
+            </ul>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="section">
+            <h2>About Our School</h2>
+            <div class="about-content">
+                <h3>📜 Our History</h3>
+                <p>Established in 1995, G.H.P. School has been a pioneer in quality education for over 30 years. We started with just 50 students and now nurture over 1200 young minds annually.</p>
+
+                <h3>🎯 Our Vision</h3>
+                <p>"To create globally competent citizens through holistic education rooted in ethical values."</p>
+
+                <h3>🌟 Our Mission</h3>
+                <ul class="content-list">
+                    <li>Provide state-of-the-art learning environment</li>
+                    <li>Foster critical thinking and creativity</li>
+                    <li>Develop social and emotional intelligence</li>
+                    <li>Promote cultural awareness and community service</li>
+                </ul>
+
+                <h3>🏆 Achievements</h3>
+                <ul class="content-list">
+                    <li>Ranked #1 School in Birgunj (2023)</li>
+                    <li>100% Board Exam Pass Rate (2024)</li>
+                    <li>National Science Fair Winners (2022, 2023)</li>
+                    <li>Green School Award Recipient</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
