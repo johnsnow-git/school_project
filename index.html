@@ -11,6 +11,20 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+            .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #004080;
+            color: white;
+        }
+        .header img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+
         .container {
             width: 90%;
             max-width: 1200px;
@@ -185,12 +199,13 @@
     </script>
 </head>
 <body>
-    <div class="header">
+      <div class="header">
+        <img src="ghp_logo.png" alt="School Logo">
         <h1>G.H.P. Secondary School<br>
-                <span style="font-size: 0.8em;">Birgunj-13</span>
-            </h1>
-        </div>
+            <span style="font-size: 0.8em;">Birgunj-13</span>
+        </h1>
     </div>
+
 
     <nav class="menu">
         <a onclick="showSection('info')">Information</a>
